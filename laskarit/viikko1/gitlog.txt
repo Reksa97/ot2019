@@ -1,0 +1,104 @@
+commit c420a931cfcd482218a74d423794048cf9d6babf
+Author: Reko <reko.kalkaja@gmail.com>
+Date:   Thu Mar 14 15:33:46 2019 +0200
+
+    deleted file2, renamed file1 to file22
+
+ tiedostoja/file2             | 0
+ tiedostoja/{file1 => file22} | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 2c574c0e13bc5f5eabb338dee2d2be4414c9173d
+Author: Reko <reko.kalkaja@gmail.com>
+Date:   Thu Mar 14 15:30:44 2019 +0200
+
+    lisätty kansio ja kolme tiedostoa
+
+ tiedostoja/file1 | 0
+ tiedostoja/file2 | 0
+ tiedostoja/file3 | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit c9c5963845f355ea87a0ec5ba51aadc66e3e5203
+Author: Reko <reko.kalkaja@gmail.com>
+Date:   Thu Mar 14 15:27:47 2019 +0200
+
+    muutoksia
+
+ eka.txt    | 1077 +-----------------------------------------------------------
+ kolmas.txt |    1 +
+ 2 files changed, 2 insertions(+), 1076 deletions(-)
+
+commit 3a494eea7f6b219ad88c0515e3f92a70d29cda4d
+Author: Reko <reko.kalkaja@gmail.com>
+Date:   Thu Mar 14 15:26:06 2019 +0200
+
+    uudelleennimentä
+
+ tiedosto.txt => eka.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit a7b2d39459c02c0a4a96c23d1767109c7c528f02
+Author: Reko <reko.kalkaja@gmail.com>
+Date:   Thu Mar 14 15:25:11 2019 +0200
+
+    poistettu toinen.txt
+
+ toinen.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit af0e7ccba6c1f816a1f328285ae4f2c973b4d102
+Author: Reko <reko.kalkaja@gmail.com>
+Date:   Thu Mar 14 15:24:18 2019 +0200
+
+    osa poistettu, lisätty lisää
+
+ tiedosto.txt | 1138 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 1138 insertions(+)
+
+commit f71c97e38441b84ab6a65f27b4eb5fe266d7f5b0
+Author: Reko <reko.kalkaja@gmail.com>
+Date:   Thu Mar 14 15:23:07 2019 +0200
+
+    paljon kopioitua tekstiä
+
+ tiedosto.txt | 573 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 572 insertions(+), 1 deletion(-)
+
+commit 09f35b9985bba70eff86ee606ef012db44c5deff
+Author: Reko <reko.kalkaja@gmail.com>
+Date:   Thu Mar 14 15:21:29 2019 +0200
+
+    lisätty kansio ja sinne tiedosto
+
+ stuff/jokin | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 73abfcecea024c1ab37dd976cf0a8e15746c105f
+Author: Reko <reko.kalkaja@gmail.com>
+Date:   Thu Mar 14 15:20:40 2019 +0200
+
+    kolmas.txt lisätty
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 165c6b201323550fbd2d0b00f82e102f4471894c
+Author: Reko <reko.kalkaja@gmail.com>
+Date:   Thu Mar 14 15:19:48 2019 +0200
+
+    muutos ja lisäys
+
+ tiedosto.txt | 1 +
+ toinen.txt   | 0
+ 2 files changed, 1 insertion(+)
+
+commit ccbb0b4b615e46e8d90fc2071e8b8eb653c71c58
+Author: Reko <reko.kalkaja@gmail.com>
+Date:   Thu Mar 14 15:18:48 2019 +0200
+
+    tiedosto.txt luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
