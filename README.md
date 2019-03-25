@@ -1,4 +1,12 @@
-## Ohjelmistotekniikka 2019
+# Ohjelmistotekniikka 2019
+
+## Telegram-botti
+
+[vaatimusmäärittely](./TelegramBot/docs/requirements.md)
+
+[tuntikirjanpito](./TelegramBot/docs/hours.md)
+
+## Laskarit
 
 ### Viikko 1
 [komentorivi.txt](./laskarit/viikko1/komentorivi.txt)
