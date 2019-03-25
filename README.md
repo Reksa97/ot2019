@@ -6,3 +6,4 @@
 [gitlog.txt](./laskarit/viikko1/gitlog.txt)
 
 ### Viikko 2
+[Jacocon testikattavuus](./laskarit/viikko2/kattavuus.png)
