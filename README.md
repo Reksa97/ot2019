@@ -1,27 +1,22 @@
 # Ohjelmistotekniikka 2019
 
+[laskarit](./laskarit/laskarit.md)
+
 ## Telegram-botti
 
 [vaatimusmäärittely](./TelegramBot/docs/requirements.md)
 
 [tuntikirjanpito](./TelegramBot/docs/hours.md)
 
-## Laskarit
+### Käynnistys
 
-### Viikko 1
+ - Luo oma botti Telegramin BotFatherilla, lisää token ja username PizzaCounterBot.java -tiedostoon.
 
-[komentorivi.txt](./laskarit/viikko1/komentorivi.txt)
+ - NetBeansin vihreällä napilla, tai komennolla `mvn compile exec:java -Dexec.mainClass=reko.telegrambot.Main`
 
-[gitlog.txt](./laskarit/viikko1/gitlog.txt)
+### Testit
 
-### Viikko 2
+ - Aja testit: `mvn test`
 
-[Jacocon testikattavuus](./laskarit/viikko2/kattavuus.png)
+ - Aja testit ja generoi Jacocon testikattavuusraportti: `mvn test jacoco:report`
 
-### Viikko 3
-
-[Monopoli](./laskarit/viikko3/monopoli.png)
-
-[Machine](./laskarit/viikko3/machinesequence.png)
-
-[HSL](./laskarit/viikko3/hsl.png)
