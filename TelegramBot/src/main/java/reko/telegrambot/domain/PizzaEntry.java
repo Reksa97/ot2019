@@ -1,4 +1,4 @@
-package reko.telegrambot;
+package reko.telegrambot.domain;
 
 import java.util.Date;
 

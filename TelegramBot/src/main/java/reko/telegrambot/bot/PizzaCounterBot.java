@@ -1,10 +1,12 @@
-package reko.telegrambot;
+package reko.telegrambot.bot;
 
 import java.util.ArrayList;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import reko.telegrambot.domain.InputHandler;
+import reko.telegrambot.domain.User;
 
 public class PizzaCounterBot extends TelegramLongPollingBot {
 

@@ -1,5 +1,8 @@
-package reko.telegrambot;
+package reko.telegrambot.domain;
 
+import reko.telegrambot.domain.User;
+import reko.telegrambot.domain.PizzaEntry;
+import reko.telegrambot.bot.PizzaCounterBot;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 

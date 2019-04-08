@@ -2,10 +2,10 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
-import reko.telegrambot.InputHandler;
-import reko.telegrambot.PizzaCounterBot;
-import reko.telegrambot.PizzaEntry;
-import reko.telegrambot.User;
+import reko.telegrambot.domain.InputHandler;
+import reko.telegrambot.bot.PizzaCounterBot;
+import reko.telegrambot.domain.PizzaEntry;
+import reko.telegrambot.domain.User;
 
 public class InputHandlerTest {
     private InputHandler handler;

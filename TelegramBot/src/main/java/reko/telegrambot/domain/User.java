@@ -1,5 +1,6 @@
-package reko.telegrambot;
+package reko.telegrambot.domain;
 
+import reko.telegrambot.domain.PizzaEntry;
 import java.util.ArrayList;
 
 public class User {
