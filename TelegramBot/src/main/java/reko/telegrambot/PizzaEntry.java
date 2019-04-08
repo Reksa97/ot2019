@@ -1,7 +1,5 @@
 package reko.telegrambot;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class PizzaEntry {
@@ -15,8 +13,6 @@ public class PizzaEntry {
         this.restaurantName = restaurant;
         this.dateEaten = eaten;
     }
-
-   
 
     public String getPizzaName() {
         return pizzaName;

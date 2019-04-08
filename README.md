@@ -1,12 +1,12 @@
 # Ohjelmistotekniikka 2019
 
-[laskarit](./laskarit/laskarit.md)
-
 ## Telegram-botti
 
 [vaatimusmäärittely](./TelegramBot/docs/requirements.md)
 
 [tuntikirjanpito](./TelegramBot/docs/hours.md)
+
+[arkkitehtuuri](./TelegramBot/docs/architecture.md)
 
 ### Käynnistys
 
@@ -19,4 +19,6 @@
  - Aja testit: `mvn test`
 
  - Aja testit ja generoi Jacocon testikattavuusraportti: `mvn test jacoco:report`
+
+ - Generoi checkstyle raportti: `mvn jxr:jxr checkstyle:checkstyle`
 

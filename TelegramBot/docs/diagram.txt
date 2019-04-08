@@ -1,0 +1,7 @@
+[PizzaCounterBot], 
+[InputHandler],
+[User|Long chatId; String firstName], 
+[PizzaEntry|String: pizzaName; String restaurantName; Date dateEaten], 
+[PizzaCounterBot]1-*[User], 
+[PizzaCounterBot]1-1[InputHandler], 
+[PizzaEntry]*-1[User]
