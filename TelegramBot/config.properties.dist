@@ -1,0 +1,6 @@
+#Tue Apr 09 01:27:39 EEST 2019
+dbpassword=password
+db=jdbc:postgresql://host:PORT/db
+dbuser=user
+botname=name
+bottoken=token

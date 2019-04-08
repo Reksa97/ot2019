@@ -10,9 +10,10 @@
 
 ### Käynnistys
 
- - Luo oma botti Telegramin BotFatherilla, lisää token ja username PizzaCounterBot.java -tiedostoon.
+ - Luo oma botti Telegramin BotFatherilla, lisää token ja username config.properties.dist -tiedostoon. Poista nimestä pääte `.dist`. Lisää muut tiedot tiedostoon jos haluat käyttää tietokantaa. Käytän itse [ElephantSQL](https://www.elephantsql.com/).
 
- - NetBeansin vihreällä napilla, tai komennolla `mvn compile exec:java -Dexec.mainClass=reko.telegrambot.Main`
+
+ - NetBeansin vihreällä napilla, tai komennolla `mvn compile exec:java -Dexec.mainClass=reko.telegrambot.bot.Main`
 
 ### Testit
 

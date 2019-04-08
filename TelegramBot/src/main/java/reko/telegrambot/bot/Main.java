@@ -1,6 +1,5 @@
-package reko.telegrambot;
+package reko.telegrambot.bot;
 
-import reko.telegrambot.bot.PizzaCounterBot;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -9,14 +8,13 @@ public class Main {
 
     public static void main(String[] args) {
         ApiContextInitializer.init();
-        
+
         TelegramBotsApi botsApi = new TelegramBotsApi();
         
         try {
             botsApi.registerBot(new PizzaCounterBot());
         } catch (TelegramApiException e) {
-            System.out.println(e.toString());
+            System.out.println("Couldn't register bot");
         }
     }
-    
 }
