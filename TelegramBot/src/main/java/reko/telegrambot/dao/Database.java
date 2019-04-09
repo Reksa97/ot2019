@@ -19,14 +19,13 @@ public class Database {
         InputStream input = new FileInputStream("config.properties");
         prop.load(input);
         
+        this.botToken = prop.getProperty("bottoken");
+        this.botName = prop.getProperty("botname");
         this.dbUrl = prop.getProperty("db");
         this.dbUser = prop.getProperty("dbuser");
         this.dbPassword = prop.getProperty("dbpassword");
-        this.botToken = prop.getProperty("bottoken");
-        this.botName = prop.getProperty("botname");
 
         input.close();
-                
     }
 
     public Connection getConnection() throws SQLException {

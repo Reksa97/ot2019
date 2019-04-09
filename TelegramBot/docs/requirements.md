@@ -16,9 +16,10 @@ Käyttöliittymä on Telegramin tarjoama. Botille keskustellaan komentojen ja no
 
 ### Perusversion toiminnalisuus
 
- - Käyttäjä voi lisätä syömänsä pizzan talletettavaksi tietokantaan
+ - Käyttäjä voi lisätä syömänsä pizzan talletettavaksi PostgreSQL-tietokantaan.
 
  - Käyttäjä voi listata syömänsä pizzat
+
 
 ### Jatkokehitysideoita
 
