@@ -6,6 +6,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import reko.telegrambot.dao.Database;
+import reko.telegrambot.dao.PizzaEntryDao;
 import reko.telegrambot.dao.UserDao;
 import reko.telegrambot.domain.InputHandler;
 import reko.telegrambot.domain.User;
@@ -16,6 +17,7 @@ public class PizzaCounterBot extends TelegramLongPollingBot {
     private ArrayList<User> users;
     private Database db;
     private UserDao userDao;
+    private PizzaEntryDao pizzaEntryDao;
 
     public PizzaCounterBot() {
         this.cmdHandler = new InputHandler();
@@ -23,12 +25,14 @@ public class PizzaCounterBot extends TelegramLongPollingBot {
         try {
             this.db = new Database();
             this.userDao = new UserDao(this.db);
-            this.users = this.userDao.getUsers();
+            this.users = this.userDao.findAll();
             System.out.println("Got users from database: " + this.users);
+            
+            this.pizzaEntryDao = new PizzaEntryDao(this.db);
         } catch (Exception e) {
             System.out.println("Couldn't connect to database");
         }
-        
+
     }
 
     public void addUser(User user) {
@@ -50,8 +54,13 @@ public class PizzaCounterBot extends TelegramLongPollingBot {
                 }
             }
             if (user == null) {
-                user = new User(chatId, userFirstName);
-                this.users.add(user);
+                try {
+                    user = new User(chatId, userFirstName, -1);
+                    user = this.userDao.save(user);
+                    this.users.add(user);
+                } catch (Exception e) {
+                    System.out.println("couldn't save user");
+                }
             }
 
             this.cmdHandler.handleInput(input, user, this);
@@ -68,7 +77,6 @@ public class PizzaCounterBot extends TelegramLongPollingBot {
         } catch (TelegramApiException e) {
             System.out.println(e.toString());
         }
-
     }
 
     @Override
@@ -79,6 +87,10 @@ public class PizzaCounterBot extends TelegramLongPollingBot {
     @Override
     public String getBotToken() {
         return this.db.getBotToken();
+    }
+    
+    public PizzaEntryDao getPizzaEntryDao() {
+        return this.pizzaEntryDao;
     }
 
 }

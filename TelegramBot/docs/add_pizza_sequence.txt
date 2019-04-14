@@ -1,0 +1,16 @@
+Telegram -> PizzaCounterBot: onUpdateReceived(update)
+PizzaCounterBot -> User: new User()
+User --> PizzaCounterBot: user
+PizzaCounterBot -> UserDao: save(user)
+UserDao --> PizzaCounterBot: user
+PizzaCounterBot -> InputHandler: handleInput(input, user, this)
+InputHandler -> PizzaCounterBot: getPizzaEntryDao()
+PizzaCounterBot --> InputHandler: dao
+InputHandler -> PizzaEntryDao: save(pizza)
+PizzaEntryDao -> Database: getConnection()
+Database --> PizzaEntryDao: connection
+PizzaEntryDao -> ElephantSQL: executeUpdate()
+ElephantSQL --> PizzaEntryDao:
+PizzaEntryDao --> InputHandler: pizza
+InputHandler -> PizzaCounterBot: sendMessage(msg)
+PizzaCounterBot -> Telegram: execute(msg)

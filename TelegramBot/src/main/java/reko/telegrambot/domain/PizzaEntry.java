@@ -7,11 +7,13 @@ public class PizzaEntry {
     private String pizzaName;
     private String restaurantName;
     private Date dateEaten;
+    private int userId;
 
-    public PizzaEntry(String pizza, String restaurant, Date eaten) {
+    public PizzaEntry(String pizza, String restaurant, Date eaten, int userId) {
         this.pizzaName = pizza;
         this.restaurantName = restaurant;
         this.dateEaten = eaten;
+        this.userId = userId;
     }
 
     public String getPizzaName() {
@@ -25,6 +27,10 @@ public class PizzaEntry {
     public Date getDateEaten() {
         return dateEaten;
     }
+    
+    public int getUserId() {
+        return userId;
+    }
 
     public void setPizzaName(String pizzaName) {
         this.pizzaName = pizzaName;
@@ -37,10 +43,14 @@ public class PizzaEntry {
     public void setDateEaten(Date dateEaten) {
         this.dateEaten = dateEaten;
     }
+    
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
     @Override
     public String toString() {
-        return this.pizzaName + ", " + this.restaurantName + ", " + this.dateEaten.toString();
+        return "\nname: " + this.pizzaName + "\nrestaurant: " + this.restaurantName + "\neaten on: " + this.dateEaten.toString();
     }
 
 }

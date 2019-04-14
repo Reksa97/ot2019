@@ -1,28 +1,91 @@
-
 package reko.telegrambot.dao;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.sql.*;
+import java.util.*;
 import reko.telegrambot.domain.User;
 
-public class UserDao {
+public class UserDao implements Dao<User, Long> {
+
     private Database db;
-    
+
     public UserDao(Database db) {
         this.db = db;
     }
 
-    public ArrayList<User> getUsers() {
+    @Override
+    public ArrayList<User> findAll() {
         ArrayList<User> users = new ArrayList<>();
         try {
-            Connection conn = this.db.getConnection();
-            User user = new User(1234l, "name");
-            users.add(user);
-            System.out.println("got connection");
+            Connection conn = db.getConnection();
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users");
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                users.add(new User(rs.getLong("chat_id"), rs.getString("first_name"), rs.getInt("id")));
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+
         } catch (SQLException ex) {
-            System.out.println("Couldn't get connection");
+            System.out.println(ex);
+            System.out.println("Couldn't get connection (getUsers)");
         }
         return users;
+    }
+
+    @Override
+    public User save(User user) throws SQLException {
+        Connection conn = db.getConnection();
+        PreparedStatement stmt = conn.prepareStatement("INSERT INTO users (first_name, chat_id) VALUES (?, ?)");
+        stmt.setString(1, user.getFirstName());
+        stmt.setLong(2, user.getChatId());
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
+        return user;
+    }
+
+    @Override
+    public User findOne(Long chat_id) throws SQLException {
+        Connection conn = db.getConnection();
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users WHERE chat_id = (?)");
+        stmt.setLong(1, chat_id);
+        ResultSet rs = stmt.executeQuery();
+
+        User user = null;
+        if (rs.next()) {
+            user = new User(rs.getLong("chat_id"), rs.getString("first_name"), rs.getInt("id"));
+        }
+
+        rs.close();
+        stmt.close();
+        conn.close();
+
+        return user;
+    }
+
+    @Override
+    public void delete(Long chat_id) throws SQLException {
+        // TODO
+    }
+    
+    public int findUserId(Long chat_id) throws SQLException {
+        Connection conn = db.getConnection();
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users WHERE chat_id = (?)");
+        stmt.setLong(1, chat_id);
+        ResultSet rs = stmt.executeQuery();
+
+        int id = -1;
+        if (rs.next()) {
+            id = rs.getInt("id");
+        }
+
+        rs.close();
+        stmt.close();
+        conn.close();
+
+        return id;
     }
 }

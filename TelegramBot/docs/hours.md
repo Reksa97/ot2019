@@ -7,3 +7,5 @@
 30.3.2019, 3h, Testausta, mockito
 
 8.4.2019, 5h, Checkstyle, arkkitehtuuridokumentaatio, ElephantSQL, config.properties-tiedoston käyttö, refaktorointia
+
+14.4.2019, 6h, Tietokantaan tallentaminen ja sieltä hakeminen, tulostusta

@@ -1,9 +1,11 @@
 package reko.telegrambot.domain;
 
+import java.sql.SQLException;
 import reko.telegrambot.domain.User;
 import reko.telegrambot.domain.PizzaEntry;
 import reko.telegrambot.bot.PizzaCounterBot;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class InputHandler {
@@ -32,21 +34,48 @@ public class InputHandler {
     }
 
     public void listUserPizzaEntries(User user, PizzaCounterBot bot) {
-        String message = user.getPizzaEntries().toString();
-        bot.sendMessage(message, user.getChatId());
+        ArrayList<PizzaEntry> pizzas;
+        try {
+            pizzas = bot.getPizzaEntryDao().findAllByUserId(user.getId());
+            String message = pizzasToString(pizzas);
+            bot.sendMessage(message, user.getChatId());
+            
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            bot.sendMessage("Couldn't get pizzas from database", user.getChatId());
+            System.out.println("couldn't list pizzas");
+        }
+        
+    }
+    
+    public String pizzasToString(ArrayList<PizzaEntry> pizzas) {
+        String s = "List of pizzas: \n _________\n";
+        
+        for (PizzaEntry pizza : pizzas) {
+            s += pizza.toString() + "\n_________\n";
+        }
+        
+        return s;
     }
 
     public void addPizzaEntry(String data, User user, PizzaCounterBot bot) {
-        PizzaEntry pizza = parsePizzaEntry(data);
+        PizzaEntry pizza = parsePizzaEntry(data, user);
+        System.out.println("adding " + pizza);
         if (pizza == null) {
             bot.sendMessage("To add a pizza use the format 'add pizzaname, restaurant, date(dd.mm.yyyy)'", user.getChatId());
         } else {
             user.addPizzaEntry(pizza);
-            bot.sendMessage("added pizza: " + pizza.toString(), user.getChatId());
+            try {
+                bot.getPizzaEntryDao().save(pizza);
+                bot.sendMessage("added pizza: " + pizza.toString(), user.getChatId());
+            } catch (SQLException ex) {
+                System.out.println(ex);
+                bot.sendMessage("Couldn't save pizza", user.getChatId());
+            }
         }
     }
 
-    public PizzaEntry parsePizzaEntry(String data) {
+    public PizzaEntry parsePizzaEntry(String data, User user) {
         String[] pizzaData = data.split(", ");
         try {
             String pizzaName = pizzaData[0];
@@ -57,7 +86,8 @@ public class InputHandler {
             } else {
                 dateEaten = new SimpleDateFormat("dd.mm.yyyy").parse(pizzaData[2]);
             }
-            return new PizzaEntry(pizzaName, restaurantName, dateEaten);
+            
+            return new PizzaEntry(pizzaName, restaurantName, dateEaten, user.getId());
 
         } catch (Exception e) {
             System.out.println("could not parse data");
