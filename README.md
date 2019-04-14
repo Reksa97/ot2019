@@ -10,7 +10,9 @@
 
 ### Käynnistys
 
- - Luo oma botti Telegramin BotFatherilla, lisää token ja username config.properties.dist -tiedostoon. Poista nimestä pääte `.dist`. Lisää muut tiedot tiedostoon jos haluat käyttää tietokantaa. Käytän itse [ElephantSQL](https://www.elephantsql.com/).
+ - Luo oma botti Telegramin [BotFatherilla](https://telegram.me/BotFather), lisää token ja username config.properties.dist -tiedostoon TOKEN ja NAME tilalle. Poista nimestä pääte `.dist`.
+
+ - Kirjaudu [ElephantSQL](https://www.elephantsql.com/) (tai muuhun postgresql palveluun) ja luo uusi instanssi (Create new instance). Kun tietokanta on luotu, lisää config.properties.dist -tiedostoon `ADDRESS` tilalle osoite (esim. `balarama.db.elephantsql.com:5432/abcabcab`. Lisää myös `USER` ja `PASSWORD` tilalle oikeat arvot. Poista tiedostosta pääte `.dist`.
 
 
  - NetBeansin vihreällä napilla, tai komennolla `mvn compile exec:java -Dexec.mainClass=reko.telegrambot.bot.Main`
