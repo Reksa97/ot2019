@@ -1,5 +1,6 @@
 package reko.telegrambot.domain;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class PizzaEntry {
@@ -50,7 +51,8 @@ public class PizzaEntry {
 
     @Override
     public String toString() {
-        return "\nname: " + this.pizzaName + "\nrestaurant: " + this.restaurantName + "\neaten on: " + this.dateEaten.toString();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.mm.yyyy");
+        return "\nname: " + this.pizzaName + "\nrestaurant: " + this.restaurantName + "\neaten on: " + dateFormat.format(this.dateEaten);
     }
 
 }

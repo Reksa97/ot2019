@@ -48,10 +48,10 @@ public class UserDao implements Dao<User, Long> {
     }
 
     @Override
-    public User findOne(Long chat_id) throws SQLException {
+    public User findOne(Long chatId) throws SQLException {
         Connection conn = db.getConnection();
         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users WHERE chat_id = (?)");
-        stmt.setLong(1, chat_id);
+        stmt.setLong(1, chatId);
         ResultSet rs = stmt.executeQuery();
 
         User user = null;
@@ -67,14 +67,14 @@ public class UserDao implements Dao<User, Long> {
     }
 
     @Override
-    public void delete(Long chat_id) throws SQLException {
+    public void delete(Long chatId) throws SQLException {
         // TODO
     }
     
-    public int findUserId(Long chat_id) throws SQLException {
+    public int findUserId(Long chatId) throws SQLException {
         Connection conn = db.getConnection();
         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users WHERE chat_id = (?)");
-        stmt.setLong(1, chat_id);
+        stmt.setLong(1, chatId);
         ResultSet rs = stmt.executeQuery();
 
         int id = -1;

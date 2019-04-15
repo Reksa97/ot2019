@@ -1,8 +1,6 @@
 package reko.telegrambot.domain;
 
 import java.sql.SQLException;
-import reko.telegrambot.domain.User;
-import reko.telegrambot.domain.PizzaEntry;
 import reko.telegrambot.bot.PizzaCounterBot;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,7 +27,7 @@ public class InputHandler {
                 bot.sendMessage(this.help(), user.getChatId());
                 break;
             default:
-                bot.sendMessage("command not recognized, type 'help' for help", user.getChatId());
+                bot.sendMessage("Command not recognized, type 'help' for help", user.getChatId());
         }
     }
 
@@ -43,7 +41,7 @@ public class InputHandler {
         } catch (SQLException ex) {
             System.out.println(ex);
             bot.sendMessage("Couldn't get pizzas from database", user.getChatId());
-            System.out.println("couldn't list pizzas");
+            System.out.println("Couldn't list pizzas");
         }
         
     }
@@ -60,14 +58,12 @@ public class InputHandler {
 
     public void addPizzaEntry(String data, User user, PizzaCounterBot bot) {
         PizzaEntry pizza = parsePizzaEntry(data, user);
-        System.out.println("adding " + pizza);
         if (pizza == null) {
             bot.sendMessage("To add a pizza use the format 'add pizzaname, restaurant, date(dd.mm.yyyy)'", user.getChatId());
         } else {
-            user.addPizzaEntry(pizza);
             try {
                 bot.getPizzaEntryDao().save(pizza);
-                bot.sendMessage("added pizza: " + pizza.toString(), user.getChatId());
+                bot.sendMessage("Added pizza: " + pizza.toString(), user.getChatId());
             } catch (SQLException ex) {
                 System.out.println(ex);
                 bot.sendMessage("Couldn't save pizza", user.getChatId());
