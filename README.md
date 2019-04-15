@@ -33,9 +33,9 @@
 
 #### TelegramBot-1.0
 
- - Luo oma botti Telegramin [BotFatherilla](https://telegram.me/BotFather).
+ - Luo oma botti Telegramin [BotFatherilla](https://telegram.me/BotFather)
 
- - Lataa jar-tiedosto
+ - Lataa [jar-tiedosto](https://github.com/Reksa97/ot2019/releases/tag/viikko5)
 
  - Lisää kansioon tiedosto `config.properties`
 
@@ -54,7 +54,7 @@ dbpassword=PASSWORD
 db=jdbc:postgresql://ADDRESS
 ```
 
- - Käynnistä jar: `java -jar TelegramBot-1.0.java`
+ - Käynnistä jar: `java -jar TelegramBot-1.0.jar`
 
 
 ### Käyttöohjeet
