@@ -11,6 +11,11 @@ import reko.telegrambot.dao.UserDao;
 import reko.telegrambot.domain.InputHandler;
 import reko.telegrambot.domain.User;
 
+/**
+ * This class is used for communicating with Telegram api.
+ * 
+ * @author xrexrexr
+ */
 public class PizzaCounterBot extends TelegramLongPollingBot {
 
     private InputHandler cmdHandler;
@@ -19,6 +24,10 @@ public class PizzaCounterBot extends TelegramLongPollingBot {
     private UserDao userDao;
     private PizzaEntryDao pizzaEntryDao;
 
+    /**
+     * Constructs a pizza counter bot. Gets a connection to database, and gets 
+     * the users in it.
+     */
     public PizzaCounterBot() {
         this.cmdHandler = new InputHandler();
         this.users = new ArrayList<>();
@@ -35,10 +44,20 @@ public class PizzaCounterBot extends TelegramLongPollingBot {
 
     }
 
+    /**
+     * Adds user to a private array used by the bot.
+     * 
+     * @param user The user to be added
+     */
     public void addUser(User user) {
         this.users.add(user);
     }
 
+    /**
+     * Handles the messages sent to the bot
+     * 
+     * @param update Contains info of sender and the message
+     */
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
@@ -67,6 +86,12 @@ public class PizzaCounterBot extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Sends a message to a specific chat
+     * 
+     * @param text Message to be sent
+     * @param chatId Message is sent to this chat
+     */
     public void sendMessage(String text, Long chatId) {
         try {
             SendMessage message = new SendMessage()
@@ -79,16 +104,25 @@ public class PizzaCounterBot extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * @return Bot username which is specified in config.properties
+     */
     @Override
     public String getBotUsername() {
         return this.db.getBotName();
     }
 
+    /**
+     * @return Bot token which is specified in config.properties
+     */
     @Override
     public String getBotToken() {
         return this.db.getBotToken();
     }
     
+    /**
+     * @return Instance of PizzaEntryDao which is used by the bod
+     */
     public PizzaEntryDao getPizzaEntryDao() {
         return this.pizzaEntryDao;
     }

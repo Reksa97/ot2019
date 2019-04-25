@@ -17,6 +17,10 @@
 
  - NetBeansin vihreällä napilla, tai komennolla `mvn compile exec:java -Dexec.mainClass=reko.telegrambot.bot.Main`
 
+### JavaDoc
+
+ - Generoi JavaDoc: `mvn javadoc:javadoc`
+
 ### Testit
 
  - Aja testit: `mvn test`

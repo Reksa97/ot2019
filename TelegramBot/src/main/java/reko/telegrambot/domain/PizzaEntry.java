@@ -49,6 +49,11 @@ public class PizzaEntry {
         this.userId = userId;
     }
 
+    /**
+     * Used for formatting PizzaEntry to a message
+     * 
+     * @return 
+     */
     @Override
     public String toString() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.mm.yyyy");

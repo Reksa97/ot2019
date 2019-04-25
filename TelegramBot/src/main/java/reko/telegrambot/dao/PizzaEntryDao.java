@@ -22,6 +22,13 @@ public class PizzaEntryDao implements Dao<PizzaEntry, Long> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * Saves a pizza entry to database
+     * 
+     * @param pizza PizzaEntry to be saved
+     * @return saved PizzaEntry
+     * @throws SQLException 
+     */
     @Override
     public PizzaEntry save(PizzaEntry pizza) throws SQLException {
         Connection conn = db.getConnection();
@@ -42,6 +49,13 @@ public class PizzaEntryDao implements Dao<PizzaEntry, Long> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * Gets all pizza entries of a single user
+     * 
+     * @param key User id
+     * @return Users pizza entries
+     * @throws SQLException 
+     */
     public ArrayList<PizzaEntry> findAllByUserId(int key) throws SQLException {
         ArrayList<PizzaEntry> pizzas = new ArrayList<>();
         Connection conn = db.getConnection();

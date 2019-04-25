@@ -12,6 +12,9 @@ public class UserDao implements Dao<User, Long> {
         this.db = db;
     }
 
+    /**
+     * @return All users in database
+     */
     @Override
     public ArrayList<User> findAll() {
         ArrayList<User> users = new ArrayList<>();
@@ -34,6 +37,13 @@ public class UserDao implements Dao<User, Long> {
         return users;
     }
 
+    /**
+     * Saves user to database
+     * 
+     * @param user User to be saved
+     * @return saved User
+     * @throws SQLException 
+     */
     @Override
     public User save(User user) throws SQLException {
         Connection conn = db.getConnection();
@@ -47,6 +57,13 @@ public class UserDao implements Dao<User, Long> {
         return user;
     }
 
+    /**
+     * Gets user from database by chat id
+     * 
+     * @param chatId id of chat
+     * @return User or null
+     * @throws SQLException 
+     */
     @Override
     public User findOne(Long chatId) throws SQLException {
         Connection conn = db.getConnection();
@@ -71,6 +88,13 @@ public class UserDao implements Dao<User, Long> {
         // TODO
     }
     
+    /**
+     * Gets user id belonging to the chat id
+     * 
+     * @param chatId id of chat
+     * @return user id
+     * @throws SQLException 
+     */
     public int findUserId(Long chatId) throws SQLException {
         Connection conn = db.getConnection();
         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users WHERE chat_id = (?)");

@@ -12,7 +12,7 @@ Yhteensä 3h.
 
 30.3.2019, 3h, Testausta, mockito
 
-Yhteensä 6,5h.
+Yhteensä 6.5h.
 
 ## Viikko 4
 
@@ -22,10 +22,14 @@ Yhteensä 5h.
 
 ## Viikko 5
 
-14.4.2019, 6,5h, Tietokantaan tallentaminen ja sieltä hakeminen, tulostusta, dokumentaatiota.
+14.4.2019, 6.5h, Tietokantaan tallentaminen ja sieltä hakeminen, tulostusta, dokumentaatiota.
 
 15.4.2019, 6h, Testejä varten sqlite, releasen miettimistä, dokumentaatiota.
 
-Yhteensä 12,5h.
+Yhteensä 12.5h.
 
-Koko projektiin käytetty 28h.
+## Viikko 6
+
+25.4.2019, 1.5h, JavaDoc
+
+Koko projektiin käytetty 29.5h.

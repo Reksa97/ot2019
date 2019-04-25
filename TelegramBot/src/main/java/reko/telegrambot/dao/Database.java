@@ -10,6 +10,11 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Properties;
 
+/**
+ * Used for initializing a database and loading properties from config.properties
+ * 
+ * @author xrexrexr
+ */
 public class Database {
 
     private String dbUrl;
@@ -18,6 +23,10 @@ public class Database {
     private String botToken;
     private String botName;
 
+    /**
+     * Tries to load config.properties. If database url is not defined, uses a local 
+     * sqlite database
+     */
     public Database() {
         try {
             loadPropertiesFromConfig();
@@ -34,6 +43,11 @@ public class Database {
         init();
     }
 
+    /**
+     * Loads properties inside config.properties to private variables.
+     * 
+     * @throws Exception If something goes wrong while loading (e.g. file doesn't exist)
+     */
     private void loadPropertiesFromConfig() throws Exception {
         Properties prop = new Properties();
         InputStream input = null;
@@ -49,11 +63,23 @@ public class Database {
         input.close();
     }
 
+    /**
+     * Creates an instance of Database for a address
+     * 
+     * @param address Address of the database (e.g. "jdbc:sqlite:database.db")
+     */
     public Database(String address) {
         this.dbUrl = address;
         init();
     }
 
+    /**
+     * Returns a connection to the database. If dbUser or dbPassword are not defined 
+     * it tries to get connection without them.
+     * 
+     * @return Connection to database
+     * @throws SQLException 
+     */
     public Connection getConnection() throws SQLException {
         if (this.dbUser == null || this.dbPassword == null) {
             return DriverManager.getConnection(this.dbUrl);
@@ -61,6 +87,9 @@ public class Database {
         return DriverManager.getConnection(this.dbUrl, this.dbUser, this.dbPassword);
     }
 
+    /**
+     * Tries to initialize database and create tables.
+     */
     private void init() {
         try {
             Connection conn = getConnection();

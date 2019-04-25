@@ -8,6 +8,13 @@ import java.util.Date;
 
 public class InputHandler {
 
+    /**
+     * Reads input of user and reacts to it
+     * 
+     * @param input Message sent by user
+     * @param user User which sent the message
+     * @param bot Current bot
+     */
     public void handleInput(String input, User user, PizzaCounterBot bot) {
         String[] splitInput = input.split(" ", 2);
         String command = splitInput[0];
@@ -31,6 +38,12 @@ public class InputHandler {
         }
     }
 
+    /**
+     * Sends pizza entries to user
+     * 
+     * @param user Receiver of the message
+     * @param bot Current bot
+     */
     public void listUserPizzaEntries(User user, PizzaCounterBot bot) {
         ArrayList<PizzaEntry> pizzas;
         try {
@@ -46,6 +59,12 @@ public class InputHandler {
         
     }
     
+    /**
+     * Formats pizza entries to a single String which can be sent to user
+     * 
+     * @param pizzas Pizza entries
+     * @return String to be sent
+     */
     public String pizzasToString(ArrayList<PizzaEntry> pizzas) {
         String s = "List of pizzas: \n _________\n";
         
@@ -56,6 +75,13 @@ public class InputHandler {
         return s;
     }
 
+    /**
+     * Parses a pizza entry from the users message and saves it
+     * 
+     * @param data Part of the message after the 'add'
+     * @param user Owner of the pizza entry
+     * @param bot Current bot
+     */
     public void addPizzaEntry(String data, User user, PizzaCounterBot bot) {
         PizzaEntry pizza = parsePizzaEntry(data, user);
         if (pizza == null) {
@@ -71,6 +97,13 @@ public class InputHandler {
         }
     }
 
+    /**
+     * Tries to parse a PizzaEntry from data 
+     * 
+     * @param data Should be in format "name, restaurant, dd.mm.yyy" or "name, restaurant"
+     * @param user User which wants to add the pizza entry
+     * @return PizzaEntry or null
+     */
     public PizzaEntry parsePizzaEntry(String data, User user) {
         String[] pizzaData = data.split(", ");
         try {
