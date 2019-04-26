@@ -30,6 +30,7 @@ Yhteensä 12.5h.
 
 ## Viikko 6
 
-25.4.2019, 1.5h, JavaDoc
+25.4.2019, 2h, JavaDoc, printing, fixed user id
+26.4.2019, 1h, Better logging to console 
 
-Koko projektiin käytetty 29.5h.
+Koko projektiin käytetty 31h.

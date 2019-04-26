@@ -18,20 +18,23 @@ public class InputHandler {
     public void handleInput(String input, User user, PizzaCounterBot bot) {
         String[] splitInput = input.split(" ", 2);
         String command = splitInput[0];
-        String data = "noData";
+        String params = "noData";
         if (splitInput.length == 2) {
-            data = splitInput[1];
+            params = splitInput[1];
         }
-
+        System.out.println(user.toString() + " sent message: " + input);
         switch (command) {
             case "list":
                 listUserPizzaEntries(user, bot);
                 break;
             case "add":
-                addPizzaEntry(data, user, bot);
+                addPizzaEntry(params, user, bot);
                 break;
             case "help":
                 bot.sendMessage(this.help(), user.getChatId());
+                break;
+            case "me":
+                bot.sendMessage("Your chat id: " + user.getChatId() + "\nYour id: " + user.getId() + "\nYour name: " + user.getFirstName(), user.getChatId());
                 break;
             default:
                 bot.sendMessage("Command not recognized, type 'help' for help", user.getChatId());
@@ -50,11 +53,12 @@ public class InputHandler {
             pizzas = bot.getPizzaEntryDao().findAllByUserId(user.getId());
             String message = pizzasToString(pizzas);
             bot.sendMessage(message, user.getChatId());
+            System.out.println("Listed " + pizzas.size() + " pizzas for user " + user.toString());
             
         } catch (SQLException ex) {
             System.out.println(ex);
             bot.sendMessage("Couldn't get pizzas from database", user.getChatId());
-            System.out.println("Couldn't list pizzas");
+            System.out.println("Couldn't list pizzas for user " + user.toString());
         }
         
     }
@@ -66,6 +70,10 @@ public class InputHandler {
      * @return String to be sent
      */
     public String pizzasToString(ArrayList<PizzaEntry> pizzas) {
+        if (pizzas.isEmpty()) {
+            return "No pizzas found";
+        } 
+        
         String s = "List of pizzas: \n _________\n";
         
         for (PizzaEntry pizza : pizzas) {
@@ -82,14 +90,15 @@ public class InputHandler {
      * @param user Owner of the pizza entry
      * @param bot Current bot
      */
-    public void addPizzaEntry(String data, User user, PizzaCounterBot bot) {
-        PizzaEntry pizza = parsePizzaEntry(data, user);
+    public void addPizzaEntry(String params, User user, PizzaCounterBot bot) {
+        PizzaEntry pizza = parsePizzaEntry(params, user);
         if (pizza == null) {
-            bot.sendMessage("To add a pizza use the format 'add pizzaname, restaurant, date(dd.mm.yyyy)'", user.getChatId());
+            bot.sendMessage("To add a pizza use the format 'add pizza name, restaurant, date(dd.mm.yyyy)'", user.getChatId());
         } else {
             try {
                 bot.getPizzaEntryDao().save(pizza);
                 bot.sendMessage("Added pizza: " + pizza.toString(), user.getChatId());
+                System.out.println("Added pizza for user " + user.toString());
             } catch (SQLException ex) {
                 System.out.println(ex);
                 bot.sendMessage("Couldn't save pizza", user.getChatId());
@@ -100,26 +109,26 @@ public class InputHandler {
     /**
      * Tries to parse a PizzaEntry from data 
      * 
-     * @param data Should be in format "name, restaurant, dd.mm.yyy" or "name, restaurant"
+     * @param data Should be in format "name, restaurant, dd.mm.yyyy" or "name, restaurant"
      * @param user User which wants to add the pizza entry
      * @return PizzaEntry or null
      */
-    public PizzaEntry parsePizzaEntry(String data, User user) {
-        String[] pizzaData = data.split(", ");
+    public PizzaEntry parsePizzaEntry(String params, User user) {
+        String[] pizzaParams = params.split(", ");
         try {
-            String pizzaName = pizzaData[0];
-            String restaurantName = pizzaData[1];
+            String pizzaName = pizzaParams[0];
+            String restaurantName = pizzaParams[1];
             Date dateEaten;
-            if (pizzaData.length == 2) {
+            if (pizzaParams.length == 2) {
                 dateEaten = new Date();
             } else {
-                dateEaten = new SimpleDateFormat("dd.mm.yyyy").parse(pizzaData[2]);
+                dateEaten = new SimpleDateFormat("dd.mm.yyyy").parse(pizzaParams[2]);
             }
             
             return new PizzaEntry(pizzaName, restaurantName, dateEaten, user.getId());
 
         } catch (Exception e) {
-            System.out.println("could not parse data");
+            System.out.println("Could not parse pizza entry");
             return null;
         }
     }

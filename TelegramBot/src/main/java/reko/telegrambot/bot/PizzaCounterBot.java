@@ -35,11 +35,14 @@ public class PizzaCounterBot extends TelegramLongPollingBot {
             this.db = new Database();
             this.userDao = new UserDao(this.db);
             this.users = this.userDao.findAll();
-            System.out.println("Got users from database: " + this.users);
+            System.out.println("Connected to database " + this.db.getDbUrl());
+            System.out.println("Got " + this.users.size() + " users from database");
+            System.out.println("Ready to receive messages");
             
             this.pizzaEntryDao = new PizzaEntryDao(this.db);
         } catch (Exception e) {
             System.out.println("Couldn't connect to database");
+            System.out.println("App doesn't work properly, 'Ctrl + c' to quit");
         }
 
     }
@@ -68,8 +71,8 @@ public class PizzaCounterBot extends TelegramLongPollingBot {
             User user = null;
             for (User u : this.users) {
                 if (u.getChatId().equals(chatId)) {
-                    System.out.println("found user");
                     user = u;
+                    System.out.print("Found user: ");
                 }
             }
             if (user == null) {
@@ -77,8 +80,9 @@ public class PizzaCounterBot extends TelegramLongPollingBot {
                     user = new User(chatId, userFirstName, -1);
                     user = this.userDao.save(user);
                     this.users.add(user);
+                    System.out.print("New user: ");
                 } catch (Exception e) {
-                    System.out.println("couldn't save user");
+                    System.out.println("Couldn't save user");
                 }
             }
 

@@ -72,4 +72,25 @@ public class InputHandlerTest {
         handler.handleInput("list", user, bot);
         verify(bot).sendMessage(handler.pizzasToString(pizzas), user.getChatId());
     }
+    
+    @Test
+    public void addAddsPizzaWithoutSpecifyingDate() {
+        String pizzaString = "pizza, restaurant";
+        handler.handleInput("add " + pizzaString, user, bot);
+        PizzaEntry pizza = handler.parsePizzaEntry(pizzaString, user);
+        ArrayList<PizzaEntry> pizzas = new ArrayList<>();
+        pizzas.add(pizza);
+
+        verify(bot).sendMessage(anyString(), anyLong());
+        handler.handleInput("list", user, bot);
+        verify(bot).sendMessage(handler.pizzasToString(pizzas), user.getChatId());
+    }
+    
+    @Test
+    public void nonExistentCommandInformsUser() {
+        handler.handleInput("this is not a working command", user, bot);
+
+        verify(bot).sendMessage(anyString(), anyLong());
+        verify(bot).sendMessage("Command not recognized, type 'help' for help", user.getChatId());
+    }
 }

@@ -1,9 +1,7 @@
 package reko.telegrambot.domain;
 
-import java.util.ArrayList;
-
 public class User {
-    private final int id;
+    private int id;
     private final Long chatId;
     private final String firstName;
     
@@ -25,9 +23,13 @@ public class User {
         return this.id;
     }
     
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     @Override
     public String toString() {
-        return "" + this.chatId + ", " + this.firstName;
+        return "(" + this.id + ", " + this.chatId + ", " + this.firstName + ")";
     }
     
 }

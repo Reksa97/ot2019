@@ -50,8 +50,9 @@ public class UserDao implements Dao<User, Long> {
         PreparedStatement stmt = conn.prepareStatement("INSERT INTO users (first_name, chat_id) VALUES (?, ?)");
         stmt.setString(1, user.getFirstName());
         stmt.setLong(2, user.getChatId());
-        stmt.executeUpdate();
-
+        int id = stmt.executeUpdate();
+        System.out.println("id after saving: " + id);
+        user.setId(id);
         stmt.close();
         conn.close();
         return user;

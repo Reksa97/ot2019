@@ -127,5 +127,9 @@ public class Database {
     public String getBotName() {
         return this.botName;
     }
+    
+    public String getDbUrl() {
+        return this.dbUrl;
+    }
 
 }
