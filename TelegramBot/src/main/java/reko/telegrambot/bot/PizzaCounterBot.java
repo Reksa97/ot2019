@@ -77,7 +77,7 @@ public class PizzaCounterBot extends TelegramLongPollingBot {
             }
             if (user == null) {
                 try {
-                    user = new User(chatId, userFirstName, -1);
+                    user = new User(chatId, userFirstName);
                     user = this.userDao.save(user);
                     this.users.add(user);
                     System.out.print("New user: ");
@@ -125,10 +125,17 @@ public class PizzaCounterBot extends TelegramLongPollingBot {
     }
     
     /**
-     * @return Instance of PizzaEntryDao which is used by the bod
+     * @return Instance of PizzaEntryDao which is used by the bot
      */
     public PizzaEntryDao getPizzaEntryDao() {
         return this.pizzaEntryDao;
     }
 
+    /**
+     * 
+     * @return Instance of UserDao used by the bot
+     */
+    public UserDao getUserDao() {
+        return this.userDao;
+    }
 }

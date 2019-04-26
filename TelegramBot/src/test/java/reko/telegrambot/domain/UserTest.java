@@ -1,14 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package reko.telegrambot.domain;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -18,28 +11,35 @@ import static org.junit.Assert.*;
  */
 public class UserTest {
     
-    public UserTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
+    private User user;
+    private Long chatId;
+    private String name;
+    private int id;
+ 
     @Before
     public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
+        this.user = new User(chatId, name, id);
     }
 
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
+    @Test
+    public void getChatIdWorks() {
+        assertEquals(chatId, user.getChatId());
+    }
+    
+    @Test
+    public void getFirstNameWorks() {
+        assertEquals(name, user.getFirstName());
+    }
+    
+    @Test
+    public void getIdWorks() {
+        assertEquals(id, user.getId());
+    }
+    
+    @Test
+    public void setIdWorks() {
+        int newId = 100;
+        user.setId(newId);
+        assertEquals(newId, user.getId());
+    }
 }

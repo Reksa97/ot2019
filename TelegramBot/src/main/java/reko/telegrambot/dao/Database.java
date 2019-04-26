@@ -88,18 +88,32 @@ public class Database {
     }
 
     /**
-     * Tries to initialize database and create tables.
+     * Tries to initialise database and create tables.
      */
     private void init() {
         try {
             Connection conn = getConnection();
-            PreparedStatement initUsers = conn.prepareStatement(createTableUsers);
-            initUsers.execute();
-            initUsers.close();
+            if (dbUrl.contains("sqlite")) {
+                PreparedStatement initUsers = conn.prepareStatement(createTableUsersSQLite);
+                initUsers.execute();
+                initUsers.close();
+                
+                PreparedStatement initPizzaEntries = conn.prepareStatement(createTablePizzaEntriesSQLite);
+                initPizzaEntries.execute();
+                initPizzaEntries.close();
+            } else {
+                PreparedStatement initUsers = conn.prepareStatement(createTableUsers);
+                initUsers.execute();
+                initUsers.close();
+                
+                PreparedStatement initPizzaEntries = conn.prepareStatement(createTablePizzaEntries);
+                initPizzaEntries.execute();
+                initPizzaEntries.close();
+            }
+            
+            
 
-            PreparedStatement initPizzaEntries = conn.prepareStatement(createTablePizzaEntries);
-            initPizzaEntries.execute();
-            initPizzaEntries.close();
+            
         } catch (SQLException e) {
             System.out.println("Failed to initialize database");
         }
@@ -111,8 +125,22 @@ public class Database {
                     + "first_name VARCHAR(64)"
                     + ");";
     
+    private String createTableUsersSQLite = "CREATE TABLE IF NOT EXISTS users ("
+                    + "id INTEGER PRIMARY KEY,"
+                    + "chat_id BIGINT,"
+                    + "first_name VARCHAR(64)"
+                    + ");";
+    
     private String createTablePizzaEntries = "CREATE TABLE IF NOT EXISTS pizza_entries ("
                     + "	id SERIAL PRIMARY KEY,"
+                    + "	pizza_name VARCHAR(64),"
+                    + "	restaurant_name VARCHAR(64),"
+                    + "	date_eaten DATE,"
+                    + "	user_id INT,"
+                    + "	FOREIGN KEY (user_id) REFERENCES users(id)"
+                    + ");";
+    private String createTablePizzaEntriesSQLite = "CREATE TABLE IF NOT EXISTS pizza_entries ("
+                    + "	id INTEGER PRIMARY KEY,"
                     + "	pizza_name VARCHAR(64),"
                     + "	restaurant_name VARCHAR(64),"
                     + "	date_eaten DATE,"

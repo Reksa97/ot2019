@@ -10,7 +10,7 @@ public class InputHandler {
 
     /**
      * Reads input of user and reacts to it
-     * 
+     *
      * @param input Message sent by user
      * @param user User which sent the message
      * @param bot Current bot
@@ -18,17 +18,21 @@ public class InputHandler {
     public void handleInput(String input, User user, PizzaCounterBot bot) {
         String[] splitInput = input.split(" ", 2);
         String command = splitInput[0];
-        String params = "noData";
+        String params = "";
         if (splitInput.length == 2) {
             params = splitInput[1];
         }
         System.out.println(user.toString() + " sent message: " + input);
         switch (command) {
             case "list":
+            case "ls":
                 listUserPizzaEntries(user, bot);
                 break;
             case "add":
                 addPizzaEntry(params, user, bot);
+                break;
+            case "delete":
+                deletePizzaEntry(params, user, bot);
                 break;
             case "help":
                 bot.sendMessage(this.help(), user.getChatId());
@@ -43,7 +47,7 @@ public class InputHandler {
 
     /**
      * Sends pizza entries to user
-     * 
+     *
      * @param user Receiver of the message
      * @param bot Current bot
      */
@@ -54,39 +58,39 @@ public class InputHandler {
             String message = pizzasToString(pizzas);
             bot.sendMessage(message, user.getChatId());
             System.out.println("Listed " + pizzas.size() + " pizzas for user " + user.toString());
-            
+
         } catch (SQLException ex) {
             System.out.println(ex);
             bot.sendMessage("Couldn't get pizzas from database", user.getChatId());
             System.out.println("Couldn't list pizzas for user " + user.toString());
         }
-        
+
     }
-    
+
     /**
      * Formats pizza entries to a single String which can be sent to user
-     * 
+     *
      * @param pizzas Pizza entries
      * @return String to be sent
      */
     public String pizzasToString(ArrayList<PizzaEntry> pizzas) {
         if (pizzas.isEmpty()) {
             return "No pizzas found";
-        } 
-        
+        }
+
         String s = "List of pizzas: \n _________\n";
-        
+
         for (PizzaEntry pizza : pizzas) {
             s += pizza.toString() + "\n_________\n";
         }
-        
+
         return s;
     }
 
     /**
      * Parses a pizza entry from the users message and saves it
-     * 
-     * @param data Part of the message after the 'add'
+     *
+     * @param params Part of the message after the 'add'
      * @param user Owner of the pizza entry
      * @param bot Current bot
      */
@@ -96,7 +100,7 @@ public class InputHandler {
             bot.sendMessage("To add a pizza use the format 'add pizza name, restaurant, date(dd.mm.yyyy)'", user.getChatId());
         } else {
             try {
-                bot.getPizzaEntryDao().save(pizza);
+                pizza = bot.getPizzaEntryDao().save(pizza);
                 bot.sendMessage("Added pizza: " + pizza.toString(), user.getChatId());
                 System.out.println("Added pizza for user " + user.toString());
             } catch (SQLException ex) {
@@ -107,9 +111,10 @@ public class InputHandler {
     }
 
     /**
-     * Tries to parse a PizzaEntry from data 
-     * 
-     * @param data Should be in format "name, restaurant, dd.mm.yyyy" or "name, restaurant"
+     * Tries to parse a PizzaEntry from data
+     *
+     * @param params Should be in format "name, restaurant, dd.mm.yyyy" or
+     * "name, restaurant"
      * @param user User which wants to add the pizza entry
      * @return PizzaEntry or null
      */
@@ -122,19 +127,47 @@ public class InputHandler {
             if (pizzaParams.length == 2) {
                 dateEaten = new Date();
             } else {
-                dateEaten = new SimpleDateFormat("dd.mm.yyyy").parse(pizzaParams[2]);
+                dateEaten = new SimpleDateFormat("dd.MM.yyyy").parse(pizzaParams[2]);
             }
-            
+
             return new PizzaEntry(pizzaName, restaurantName, dateEaten, user.getId());
 
-        } catch (Exception e) {
-            System.out.println("Could not parse pizza entry");
-            return null;
-        }
+        } catch (Exception e) {}
+        System.out.println("Could not parse pizza entry");
+        return null;
     }
-    
+
     public String help() {
         return "List all your pizzas by typing 'list'\n"
-                + "Add a pizza by typing 'add pizzaname, restaurant, date(dd.mm.yyyy)', no date means current date";
+                + "Add a pizza by typing 'add pizzaname, restaurant, date(dd.mm.yyyy)', no date means current date\n"
+                + "Delete a pizza by typing 'delete id', id can be found in the list";
+    }
+
+    /**
+     *
+     * @param param Should contain only the pizza id
+     * @param user User deleting the pizza
+     * @param bot Current bot
+     */
+    private void deletePizzaEntry(String param, User user, PizzaCounterBot bot) {
+        int id;
+        try {
+            id = Integer.parseInt(param);
+        } catch (Exception e) {
+            bot.sendMessage("To delete a pizza, type 'delete id', e.g 'delete 5'. Type 'list' to see your pizzas and their ids", user.getChatId());
+            return;
+        }
+        try {
+            if (bot.getPizzaEntryDao().delete(id, user.getId())) {
+                bot.sendMessage("Deleted pizza " + id, user.getChatId());
+                System.out.println("Deleted pizza " + id + " for user " + user.toString());
+                return;
+            }
+
+        } catch (Exception e) {
+        }
+        bot.sendMessage("Couldn't delete pizza. You can only delete pizzas added by you", user.getChatId());
+        System.out.println("Couldn't delete pizza " + id + " for user " + user.toString());
+
     }
 }

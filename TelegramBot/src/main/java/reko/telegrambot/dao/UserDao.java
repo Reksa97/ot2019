@@ -4,7 +4,7 @@ import java.sql.*;
 import java.util.*;
 import reko.telegrambot.domain.User;
 
-public class UserDao implements Dao<User, Long> {
+public class UserDao {
 
     private Database db;
 
@@ -15,7 +15,6 @@ public class UserDao implements Dao<User, Long> {
     /**
      * @return All users in database
      */
-    @Override
     public ArrayList<User> findAll() {
         ArrayList<User> users = new ArrayList<>();
         try {
@@ -44,15 +43,17 @@ public class UserDao implements Dao<User, Long> {
      * @return saved User
      * @throws SQLException 
      */
-    @Override
     public User save(User user) throws SQLException {
         Connection conn = db.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("INSERT INTO users (first_name, chat_id) VALUES (?, ?)");
+        PreparedStatement stmt = conn.prepareStatement("INSERT INTO users (first_name, chat_id) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
         stmt.setString(1, user.getFirstName());
         stmt.setLong(2, user.getChatId());
-        int id = stmt.executeUpdate();
-        System.out.println("id after saving: " + id);
-        user.setId(id);
+        stmt.executeUpdate();
+        
+        ResultSet rs = stmt.getGeneratedKeys();
+        rs.next();
+        user.setId(rs.getInt(1));
+        
         stmt.close();
         conn.close();
         return user;
@@ -65,7 +66,6 @@ public class UserDao implements Dao<User, Long> {
      * @return User or null
      * @throws SQLException 
      */
-    @Override
     public User findOne(Long chatId) throws SQLException {
         Connection conn = db.getConnection();
         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users WHERE chat_id = (?)");
@@ -82,35 +82,5 @@ public class UserDao implements Dao<User, Long> {
         conn.close();
 
         return user;
-    }
-
-    @Override
-    public void delete(Long chatId) throws SQLException {
-        // TODO
-    }
-    
-    /**
-     * Gets user id belonging to the chat id
-     * 
-     * @param chatId id of chat
-     * @return user id
-     * @throws SQLException 
-     */
-    public int findUserId(Long chatId) throws SQLException {
-        Connection conn = db.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users WHERE chat_id = (?)");
-        stmt.setLong(1, chatId);
-        ResultSet rs = stmt.executeQuery();
-
-        int id = -1;
-        if (rs.next()) {
-            id = rs.getInt("id");
-        }
-
-        rs.close();
-        stmt.close();
-        conn.close();
-
-        return id;
     }
 }

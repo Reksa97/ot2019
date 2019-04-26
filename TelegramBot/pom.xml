@@ -63,6 +63,7 @@
                 <configuration>
                     <excludes>
                         <exclude>reko/telegrambot/bot/*</exclude>
+                        <exclude>reko/telegrambot/dao/Database.*</exclude>
                     </excludes>
                 </configuration>  
                 <executions>

@@ -10,6 +10,12 @@ public class User {
         this.chatId = chatId;
         this.firstName = firstName;
     }
+    
+    public User(Long chatId, String firstName) {
+        this.id = -1;
+        this.chatId = chatId;
+        this.firstName = firstName;
+    }
 
     public Long getChatId() {
         return chatId;
@@ -31,5 +37,4 @@ public class User {
     public String toString() {
         return "(" + this.id + ", " + this.chatId + ", " + this.firstName + ")";
     }
-    
 }
