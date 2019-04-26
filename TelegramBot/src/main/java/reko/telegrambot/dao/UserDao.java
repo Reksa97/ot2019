@@ -15,33 +15,29 @@ public class UserDao {
     /**
      * @return All users in database
      */
-    public ArrayList<User> findAll() {
+    public ArrayList<User> findAll() throws SQLException {
         ArrayList<User> users = new ArrayList<>();
-        try {
-            Connection conn = db.getConnection();
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users");
-            ResultSet rs = stmt.executeQuery();
 
-            while (rs.next()) {
-                users.add(new User(rs.getLong("chat_id"), rs.getString("first_name"), rs.getInt("id")));
-            }
-            rs.close();
-            stmt.close();
-            conn.close();
+        Connection conn = db.getConnection();
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users");
+        ResultSet rs = stmt.executeQuery();
 
-        } catch (SQLException ex) {
-            System.out.println(ex);
-            System.out.println("Couldn't get connection (getUsers)");
+        while (rs.next()) {
+            users.add(new User(rs.getLong("chat_id"), rs.getString("first_name"), rs.getInt("id")));
         }
+        rs.close();
+        stmt.close();
+        conn.close();
+
         return users;
     }
 
     /**
      * Saves user to database
-     * 
+     *
      * @param user User to be saved
      * @return saved User
-     * @throws SQLException 
+     * @throws SQLException
      */
     public User save(User user) throws SQLException {
         Connection conn = db.getConnection();
@@ -49,11 +45,11 @@ public class UserDao {
         stmt.setString(1, user.getFirstName());
         stmt.setLong(2, user.getChatId());
         stmt.executeUpdate();
-        
+
         ResultSet rs = stmt.getGeneratedKeys();
         rs.next();
         user.setId(rs.getInt(1));
-        
+
         stmt.close();
         conn.close();
         return user;
@@ -61,10 +57,10 @@ public class UserDao {
 
     /**
      * Gets user from database by chat id
-     * 
+     *
      * @param chatId id of chat
      * @return User or null
-     * @throws SQLException 
+     * @throws SQLException
      */
     public User findOne(Long chatId) throws SQLException {
         Connection conn = db.getConnection();

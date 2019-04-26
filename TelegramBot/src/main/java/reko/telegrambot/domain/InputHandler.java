@@ -5,8 +5,14 @@ import reko.telegrambot.bot.PizzaCounterBot;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import reko.telegrambot.dao.PizzaEntryDao;
 
 public class InputHandler {
+    private PizzaEntryDao pizzaEntryDao;
+    
+    public InputHandler(PizzaEntryDao p) {
+        this.pizzaEntryDao = p;
+    }
 
     /**
      * Reads input of user and reacts to it
@@ -54,7 +60,7 @@ public class InputHandler {
     public void listUserPizzaEntries(User user, PizzaCounterBot bot) {
         ArrayList<PizzaEntry> pizzas;
         try {
-            pizzas = bot.getPizzaEntryDao().findAllByUserId(user.getId());
+            pizzas = pizzaEntryDao.findAllByUserId(user.getId());
             String message = pizzasToString(pizzas);
             bot.sendMessage(message, user.getChatId());
             System.out.println("Listed " + pizzas.size() + " pizzas for user " + user.toString());
@@ -100,7 +106,7 @@ public class InputHandler {
             bot.sendMessage("To add a pizza use the format 'add pizza name, restaurant, date(dd.mm.yyyy)'", user.getChatId());
         } else {
             try {
-                pizza = bot.getPizzaEntryDao().save(pizza);
+                pizza = pizzaEntryDao.save(pizza);
                 bot.sendMessage("Added pizza: " + pizza.toString(), user.getChatId());
                 System.out.println("Added pizza for user " + user.toString());
             } catch (SQLException ex) {
@@ -132,7 +138,7 @@ public class InputHandler {
 
             return new PizzaEntry(pizzaName, restaurantName, dateEaten, user.getId());
 
-        } catch (Exception e) {}
+        } catch (Exception e) { }
         System.out.println("Could not parse pizza entry");
         return null;
     }
@@ -158,7 +164,7 @@ public class InputHandler {
             return;
         }
         try {
-            if (bot.getPizzaEntryDao().delete(id, user.getId())) {
+            if (pizzaEntryDao.delete(id, user.getId())) {
                 bot.sendMessage("Deleted pizza " + id, user.getChatId());
                 System.out.println("Deleted pizza " + id + " for user " + user.toString());
                 return;

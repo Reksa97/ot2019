@@ -20,7 +20,7 @@ public class InputHandlerTest {
 
     @Before
     public void setUp() throws SQLException {
-        this.handler = new InputHandler();
+        
         this.user = new User(new Long(1234), "Jukka");
         this.bot = mock(PizzaCounterBot.class);
         
@@ -32,6 +32,7 @@ public class InputHandlerTest {
         when(this.bot.getUserDao()).thenReturn(userDao);
         
         this.user = bot.getUserDao().save(user);
+        this.handler = new InputHandler(pizzaEntryDao);
     }
 
     @After

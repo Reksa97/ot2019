@@ -31,6 +31,6 @@ Yhteensä 12.5h.
 ## Viikko 6
 
 25.4.2019, 2h, JavaDoc, printing, fixed user id
-26.4.2019, 6h, Better logging to console, sqlite uses id now too, id should actually update now, tests
+26.4.2019, 7h, Better logging to console, sqlite uses id now too, id should actually update now, tests, documentation, checkstyle
 
-Koko projektiin käytetty 36h.
+Koko projektiin käytetty 37h.

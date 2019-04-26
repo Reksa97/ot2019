@@ -31,13 +31,14 @@ public class Database {
         try {
             loadPropertiesFromConfig();
         } catch (Exception e) {
+            System.out.println("excpece");
             this.dbPassword = null;
             this.dbUser = null;
         }
         
         if (this.dbUrl == null) {
             this.dbUrl = "jdbc:sqlite:database.db";
-            System.out.println("Failed to load config.properties\nUsing default db (" + this.dbUrl + ")");
+            System.out.println("Couldn't get database url from config.properties, using default db (" + this.dbUrl + ")");
         }
 
         init();
@@ -93,27 +94,19 @@ public class Database {
     private void init() {
         try {
             Connection conn = getConnection();
+            PreparedStatement initUsers;
+            PreparedStatement initPizzaEntries;
             if (dbUrl.contains("sqlite")) {
-                PreparedStatement initUsers = conn.prepareStatement(createTableUsersSQLite);
-                initUsers.execute();
-                initUsers.close();
-                
-                PreparedStatement initPizzaEntries = conn.prepareStatement(createTablePizzaEntriesSQLite);
-                initPizzaEntries.execute();
-                initPizzaEntries.close();
-            } else {
-                PreparedStatement initUsers = conn.prepareStatement(createTableUsers);
-                initUsers.execute();
-                initUsers.close();
-                
-                PreparedStatement initPizzaEntries = conn.prepareStatement(createTablePizzaEntries);
-                initPizzaEntries.execute();
-                initPizzaEntries.close();
+                initUsers = conn.prepareStatement(createTableUsersSQLite);
+                initPizzaEntries = conn.prepareStatement(createTablePizzaEntriesSQLite);
+            }   else {
+                initUsers = conn.prepareStatement(createTableUsers);
+                initPizzaEntries = conn.prepareStatement(createTablePizzaEntries);
             }
-            
-            
-
-            
+            initUsers.execute();
+            initUsers.close();
+            initPizzaEntries.execute();
+            initPizzaEntries.close();           
         } catch (SQLException e) {
             System.out.println("Failed to initialize database");
         }

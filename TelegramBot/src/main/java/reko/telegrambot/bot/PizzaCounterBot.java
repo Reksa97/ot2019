@@ -29,7 +29,6 @@ public class PizzaCounterBot extends TelegramLongPollingBot {
      * the users in it.
      */
     public PizzaCounterBot() {
-        this.cmdHandler = new InputHandler();
         this.users = new ArrayList<>();
         try {
             this.db = new Database();
@@ -40,11 +39,13 @@ public class PizzaCounterBot extends TelegramLongPollingBot {
             System.out.println("Ready to receive messages");
             
             this.pizzaEntryDao = new PizzaEntryDao(this.db);
+            this.cmdHandler = new InputHandler(pizzaEntryDao);
         } catch (Exception e) {
             System.out.println("Couldn't connect to database");
-            System.out.println("App doesn't work properly, 'Ctrl + c' to quit");
+            System.out.println("App doesn't work properly, exiting program");
+            System.exit(1);
         }
-
+        
     }
 
     /**

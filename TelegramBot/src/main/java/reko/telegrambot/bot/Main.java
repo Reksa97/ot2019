@@ -19,7 +19,7 @@ public class Main {
         try {
             botsApi.registerBot(new PizzaCounterBot());
         } catch (TelegramApiException e) {
-            System.out.println("Couldn't register bot");
+            System.out.println("Couldn't register bot, check your config.properties file");
         }
     }
 }

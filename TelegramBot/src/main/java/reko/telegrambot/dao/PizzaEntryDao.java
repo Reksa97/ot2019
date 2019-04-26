@@ -41,15 +41,15 @@ public class PizzaEntryDao {
      * 
      * 
      * @param id Id of pizza
-     * @param user_id Id of user trying to delete pizza
+     * @param userId Id of user trying to delete pizza
      * @return True if deleted, false if not
      * @throws SQLException 
      */
-    public boolean delete(Integer id, Integer user_id) throws SQLException {
+    public boolean delete(Integer id, Integer userId) throws SQLException {
         Connection conn = db.getConnection();
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM pizza_entries WHERE id = ? AND user_id = ?");
         stmt.setInt(1, id);
-        stmt.setInt(2, user_id);
+        stmt.setInt(2, userId);
         
         int deleted = stmt.executeUpdate();
         stmt.close();
