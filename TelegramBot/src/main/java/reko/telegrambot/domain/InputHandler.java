@@ -68,7 +68,6 @@ public class InputHandler {
         ArrayList<PizzaEntry> pizzas;
         try {
             pizzas = pizzaEntryDao.findAllByUserId(user.getId());
-            pizzas.sort((o1, o2) -> o2.getDateEaten().compareTo(o1.getDateEaten()));
             String message = "";
             final int year = Calendar.getInstance().get(Calendar.YEAR);
             switch (param) {

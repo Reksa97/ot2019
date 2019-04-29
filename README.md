@@ -8,6 +8,8 @@
 
 [arkkitehtuuri](./TelegramBot/docs/architecture.md)
 
+[testausdokumentti](./TelegramBot/docs/testing.md)
+
 ### Käynnistys
 
  - Luo oma botti Telegramin [BotFatherilla](https://telegram.me/BotFather), lisää token ja username config.properties.dist -tiedostoon TOKEN ja NAME tilalle. Poista nimestä pääte `.dist`. Jos et halua käyttää postgresql, niin poista tiedostosta muut rivit ja ohita seuraava vaihe.

@@ -98,6 +98,29 @@ public class InputHandlerTest {
         handler.handleInput("list", user, bot);
         verify(bot).sendMessage(handler.pizzasToString(pizzas), user.getChatId());
     }
+    
+    @Test
+    public void listPizzasOfCurrentYear() {
+        String pizzaString = "pizza, restaurant";
+        handler.handleInput("add " + pizzaString, user, bot);
+        handler.handleInput("add another, resta, 1.1.2018" + pizzaString, user, bot);
+        ArrayList<PizzaEntry> pizzas = new ArrayList<>();
+        PizzaEntry pizza = handler.parsePizzaEntry(pizzaString, user);
+        pizza.setId(1);
+        pizzas.add(pizza);
+        
+        handler.handleInput("list year", user, bot);
+        verify(bot).sendMessage(contains(handler.pizzasToString(pizzas)), eq(user.getChatId()));
+    }
+    
+    @Test
+    public void listPizzasOfLastYear() {
+        handler.handleInput("add another, resta, 1.1.2017", user, bot);
+        ArrayList<PizzaEntry> pizzas = new ArrayList<>();
+        
+        handler.handleInput("list year last", user, bot);
+        verify(bot).sendMessage(contains(handler.pizzasToString(pizzas)), eq(user.getChatId()));
+    }
 
     @Test
     public void nonExistentCommandInformsUser() {
@@ -173,7 +196,7 @@ public class InputHandlerTest {
         verify(bot).sendMessage(contains("margarita"), eq(user.getChatId()));
         handler.handleInput("edit 1 date 5.6.2008", user, bot);
         verify(bot).sendMessage(contains("Edited pizza 1"), eq(user.getChatId()));
-        handler.handleInput("list", user, bot);
+        handler.handleInput("list date asc", user, bot);
         
         verify(bot, atLeastOnce()).sendMessage(contains("eaten on: 05.06.2008"), eq(user.getChatId()));
     }

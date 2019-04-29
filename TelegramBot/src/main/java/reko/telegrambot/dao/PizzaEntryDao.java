@@ -78,6 +78,8 @@ public class PizzaEntryDao {
         rs.close();
         stmt.close();
         conn.close();
+
+        pizzas.sort((o1, o2) -> o2.getDateEaten().compareTo(o1.getDateEaten()));
         return pizzas;
     }
 
@@ -90,7 +92,7 @@ public class PizzaEntryDao {
         stmt.setDate(3, new Date(pizzaEntry.getDateEaten().getTime()));
         stmt.setInt(4, pizzaEntry.getId());
         stmt.setInt(5, userId);
-        
+
         int updated = stmt.executeUpdate();
         stmt.close();
         conn.close();

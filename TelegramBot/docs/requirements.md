@@ -7,19 +7,21 @@ sitä voi käyttää usea käyttäjä, joilla jokaisella on omat pizzansa.
 
 ### Käyttäjät
 
-Aluksi kaikki Telegram-käyttäjät saavat samat toiminnallisuudet. Myöhemmin lisätään mahdollisesti pääkäyttäjä,
-jolla on suuremmat oikeudet kuin peruskäyttäjällä.
+Kaikki Telegram-käyttäjät saavat samat toiminnallisuudet.
 
 ### Käyttöliittymä
 
-Käyttöliittymä on Telegramin tarjoama. Botille keskustellaan komentojen ja normaalien viestien avulla.
+Käyttöliittymä on Telegramin tarjoama. Botille keskustellaan normaalien viestien avulla.
 
 ### Perusversion toiminnalisuus
 
- - Käyttäjä voi lisätä syömänsä pizzan talletettavaksi PostgreSQL-tietokantaan.
+ - Käyttäjä voi lisätä syömänsä pizzan talletettavaksi PostgreSQL-tietokantaan (ElephantSQL).
 
- - Käyttäjä voi listata syömänsä pizzat
+ - Käyttäjä voi listata kaikki syömänsä pizzat, tai kuluneen vuoden aikana syödyt tai viime vuoden aikana syödyt pizzat.
 
+ - Käyttäjä voi poistaa lisäämänsä pizzan
+
+ - Käyttäjä voi muokata lisäämäänsä pizzaa
 
 ### Jatkokehitysideoita
 

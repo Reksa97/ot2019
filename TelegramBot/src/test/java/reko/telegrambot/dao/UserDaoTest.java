@@ -13,7 +13,6 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import reko.telegrambot.domain.User;
-import reko.telegrambot.domain.User;
 
 /**
  *
@@ -58,7 +57,16 @@ public class UserDaoTest {
         } catch (Exception e) {
             fail("Saving and finding a user should not throw any exceptions");
         }
-
+    }
+    
+    @Test
+    public void tryToFindNonExistentUser() {
+        try {
+            User user = dao.findOne(191919l);
+            assertEquals(null, user);
+        } catch (Exception e) {
+            fail("Trying to find nonexistent user shouldn't throw an error");
+        }
     }
     
     @Test
