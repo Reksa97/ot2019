@@ -14,10 +14,10 @@ public class PizzaEntryDao {
 
     /**
      * Saves a pizza entry to database
-     * 
+     *
      * @param pizza PizzaEntry to be saved
      * @return saved PizzaEntry
-     * @throws SQLException 
+     * @throws SQLException
      */
     public PizzaEntry save(PizzaEntry pizza) throws SQLException {
         Connection conn = db.getConnection();
@@ -26,44 +26,44 @@ public class PizzaEntryDao {
         stmt.setString(2, pizza.getRestaurantName());
         stmt.setDate(3, new Date(pizza.getDateEaten().getTime()));
         stmt.setInt(4, pizza.getUserId());
-        
+
         stmt.executeUpdate();
         ResultSet rs = stmt.getGeneratedKeys();
         rs.next();
         pizza.setId(rs.getInt(1));
-        
+
         stmt.close();
         conn.close();
         return pizza;
     }
 
     /**
-     * 
-     * 
+     *
+     *
      * @param id Id of pizza
      * @param userId Id of user trying to delete pizza
      * @return True if deleted, false if not
-     * @throws SQLException 
+     * @throws SQLException
      */
     public boolean delete(Integer id, Integer userId) throws SQLException {
         Connection conn = db.getConnection();
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM pizza_entries WHERE id = ? AND user_id = ?");
         stmt.setInt(1, id);
         stmt.setInt(2, userId);
-        
+
         int deleted = stmt.executeUpdate();
         stmt.close();
         conn.close();
-        
+
         return deleted != 0;
     }
 
     /**
      * Gets all pizza entries of a single user
-     * 
+     *
      * @param key User id
      * @return Users pizza entries
-     * @throws SQLException 
+     * @throws SQLException
      */
     public ArrayList<PizzaEntry> findAllByUserId(Integer key) throws SQLException {
         ArrayList<PizzaEntry> pizzas = new ArrayList<>();
@@ -79,6 +79,23 @@ public class PizzaEntryDao {
         stmt.close();
         conn.close();
         return pizzas;
+    }
+
+    public boolean editPizzaEntry(PizzaEntry pizzaEntry, Integer userId) throws SQLException {
+
+        Connection conn = db.getConnection();
+        PreparedStatement stmt = conn.prepareStatement("UPDATE pizza_entries SET pizza_name = ?, restaurant_name = ?, date_eaten = ? WHERE id = ? AND user_id = ?");
+        stmt.setString(1, pizzaEntry.getPizzaName());
+        stmt.setString(2, pizzaEntry.getRestaurantName());
+        stmt.setDate(3, new Date(pizzaEntry.getDateEaten().getTime()));
+        stmt.setInt(4, pizzaEntry.getId());
+        stmt.setInt(5, userId);
+        
+        int updated = stmt.executeUpdate();
+        stmt.close();
+        conn.close();
+
+        return updated != 0;
     }
 
 }

@@ -8,8 +8,9 @@ import java.util.Date;
 import reko.telegrambot.dao.PizzaEntryDao;
 
 public class InputHandler {
+
     private PizzaEntryDao pizzaEntryDao;
-    
+
     public InputHandler(PizzaEntryDao p) {
         this.pizzaEntryDao = p;
     }
@@ -36,6 +37,9 @@ public class InputHandler {
                 break;
             case "add":
                 addPizzaEntry(params, user, bot);
+                break;
+            case "edit":
+                editPizzaEntry(params, user, bot);
                 break;
             case "delete":
                 deletePizzaEntry(params, user, bot);
@@ -138,15 +142,17 @@ public class InputHandler {
 
             return new PizzaEntry(pizzaName, restaurantName, dateEaten, user.getId());
 
-        } catch (Exception e) { }
+        } catch (Exception e) {
+        }
         System.out.println("Could not parse pizza entry");
         return null;
     }
 
     public String help() {
         return "List all your pizzas by typing 'list'\n"
-                + "Add a pizza by typing 'add pizzaname, restaurant, date(dd.mm.yyyy)', no date means current date\n"
-                + "Delete a pizza by typing 'delete id', id can be found in the list";
+                + "Add a pizza by typing 'add pizzaname, restaurant, date(dd.mm.yyyy)', or 'add pizzaname, restaurant' to use current date\n"
+                + "Delete a pizza by typing 'delete id', id can be found in the list\n"
+                + "Edit a pizza by typing 'edit id field newvalue', field can be 'name', 'restaurant' or 'date'";
     }
 
     /**
@@ -155,7 +161,7 @@ public class InputHandler {
      * @param user User deleting the pizza
      * @param bot Current bot
      */
-    private void deletePizzaEntry(String param, User user, PizzaCounterBot bot) {
+    public void deletePizzaEntry(String param, User user, PizzaCounterBot bot) {
         int id;
         try {
             id = Integer.parseInt(param);
@@ -175,5 +181,74 @@ public class InputHandler {
         bot.sendMessage("Couldn't delete pizza. You can only delete pizzas added by you", user.getChatId());
         System.out.println("Couldn't delete pizza " + id + " for user " + user.toString());
 
+    }
+
+    public void editPizzaEntry(String params, User user, PizzaCounterBot bot) {
+        String[] paramsArr = params.split(" ", 3);
+
+        int id;
+        String column;
+        String columnData;
+        try {
+            id = Integer.parseInt(paramsArr[0]);
+            column = paramsArr[1];
+            columnData = paramsArr[2];
+        } catch (Exception e) {
+            bot.sendMessage("To edit a pizza, type 'edit id field newvalue', field can be 'name', 'restaurant' or 'date'", user.getChatId());
+            return;
+        }
+        ArrayList<PizzaEntry> userPizzas;
+        try {
+            userPizzas = this.pizzaEntryDao.findAllByUserId(user.getId());
+        } catch (Exception e) {
+            bot.sendMessage("Couldn't get pizzas", user.getChatId());
+            return;
+        }
+        
+        PizzaEntry pizzaToEdit = null;
+        for (PizzaEntry pizza : userPizzas) {
+            if (pizza.getId() == id) {
+                pizzaToEdit = pizza;
+            }
+        }
+        
+        if (pizzaToEdit == null) {
+            bot.sendMessage("You can only edit pizzas added by you", user.getChatId());
+            return;
+        }
+        
+        switch (column) {
+            case "name":
+                pizzaToEdit.setPizzaName(columnData);
+                break;
+            case "restaurant":
+                pizzaToEdit.setRestaurantName(columnData);
+                break;
+            case "date":
+                Date date;
+                try {
+                    date = new SimpleDateFormat("dd.MM.yyyy").parse(columnData);
+                } catch (Exception e) {
+                    bot.sendMessage("Date should be in format 'dd.mm.yyyy'", user.getChatId());
+                    break;
+                }
+                pizzaToEdit.setDateEaten(date);
+                break;
+            default:
+                bot.sendMessage("Field should be 'name', 'restaurant' or 'date", user.getChatId());
+                return;
+        }
+        
+        try {
+            if (this.pizzaEntryDao.editPizzaEntry(pizzaToEdit, user.getId())) {
+                bot.sendMessage("Edited pizza " + pizzaToEdit.getId(), user.getChatId());
+                return;
+            }
+            
+        } catch (Exception e) {
+            
+        }
+        
+        bot.sendMessage("Couldn't edit pizza", user.getChatId());
     }
 }

@@ -124,19 +124,4 @@ public class PizzaCounterBot extends TelegramLongPollingBot {
     public String getBotToken() {
         return this.db.getBotToken();
     }
-    
-    /**
-     * @return Instance of PizzaEntryDao which is used by the bot
-     */
-    public PizzaEntryDao getPizzaEntryDao() {
-        return this.pizzaEntryDao;
-    }
-
-    /**
-     * 
-     * @return Instance of UserDao used by the bot
-     */
-    public UserDao getUserDao() {
-        return this.userDao;
-    }
 }
