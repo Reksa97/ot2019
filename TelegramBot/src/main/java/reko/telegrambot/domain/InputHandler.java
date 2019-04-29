@@ -4,7 +4,9 @@ import java.sql.SQLException;
 import reko.telegrambot.bot.PizzaCounterBot;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import static java.util.stream.Collectors.toCollection;
 import reko.telegrambot.dao.PizzaEntryDao;
 
 public class InputHandler {
@@ -33,7 +35,7 @@ public class InputHandler {
         switch (command) {
             case "list":
             case "ls":
-                listUserPizzaEntries(user, bot);
+                listUserPizzaEntries(params, user, bot);
                 break;
             case "add":
                 addPizzaEntry(params, user, bot);
@@ -58,14 +60,37 @@ public class InputHandler {
     /**
      * Sends pizza entries to user
      *
+     * @param param
      * @param user Receiver of the message
      * @param bot Current bot
      */
-    public void listUserPizzaEntries(User user, PizzaCounterBot bot) {
+    public void listUserPizzaEntries(String param, User user, PizzaCounterBot bot) {
         ArrayList<PizzaEntry> pizzas;
         try {
             pizzas = pizzaEntryDao.findAllByUserId(user.getId());
-            String message = pizzasToString(pizzas);
+            pizzas.sort((o1, o2) -> o2.getDateEaten().compareTo(o1.getDateEaten()));
+            String message = "";
+            final int year = Calendar.getInstance().get(Calendar.YEAR);
+            switch (param) {
+                case "year":
+                    message = "Year " + year + "\n";
+                    pizzas = pizzas.stream().filter((o) -> o.toString().contains("" + year)).collect(toCollection(ArrayList::new));
+                    break;
+                case "year last":
+                    message = "Year " + (year - 1) + "\n";
+                    pizzas = pizzas.stream().filter((o) -> o.toString().contains("" + (year - 1))).collect(toCollection(ArrayList::new));
+                    break;
+                case "date asc":
+                    pizzas.sort((o1, o2) -> o1.getDateEaten().compareTo(o2.getDateEaten()));
+                    break;
+                case "":
+                case "date":
+                case "date desc":
+                default:
+                    
+            }
+            message += pizzasToString(pizzas);
+
             bot.sendMessage(message, user.getChatId());
             System.out.println("Listed " + pizzas.size() + " pizzas for user " + user.toString());
 
@@ -88,7 +113,7 @@ public class InputHandler {
             return "No pizzas found";
         }
 
-        String s = "List of pizzas: \n _________\n";
+        String s = "List of " + pizzas.size() + " pizzas: \n _________\n";
 
         for (PizzaEntry pizza : pizzas) {
             s += pizza.toString() + "\n_________\n";
@@ -149,7 +174,7 @@ public class InputHandler {
     }
 
     public String help() {
-        return "List all your pizzas by typing 'list'\n"
+        return "List all your pizzas by typing 'list' or 'ls'. 'list year' to list pizzas eaten this year. 'list year last' to list pizzas eaten last year\n"
                 + "Add a pizza by typing 'add pizzaname, restaurant, date(dd.mm.yyyy)', or 'add pizzaname, restaurant' to use current date\n"
                 + "Delete a pizza by typing 'delete id', id can be found in the list\n"
                 + "Edit a pizza by typing 'edit id field newvalue', field can be 'name', 'restaurant' or 'date'";
@@ -204,19 +229,19 @@ public class InputHandler {
             bot.sendMessage("Couldn't get pizzas", user.getChatId());
             return;
         }
-        
+
         PizzaEntry pizzaToEdit = null;
         for (PizzaEntry pizza : userPizzas) {
             if (pizza.getId() == id) {
                 pizzaToEdit = pizza;
             }
         }
-        
+
         if (pizzaToEdit == null) {
             bot.sendMessage("You can only edit pizzas added by you", user.getChatId());
             return;
         }
-        
+
         switch (column) {
             case "name":
                 pizzaToEdit.setPizzaName(columnData);
@@ -238,17 +263,14 @@ public class InputHandler {
                 bot.sendMessage("Field should be 'name', 'restaurant' or 'date", user.getChatId());
                 return;
         }
-        
+
         try {
             if (this.pizzaEntryDao.editPizzaEntry(pizzaToEdit, user.getId())) {
                 bot.sendMessage("Edited pizza " + pizzaToEdit.getId(), user.getChatId());
                 return;
             }
-            
-        } catch (Exception e) {
-            
-        }
-        
+        } catch (Exception e) { }
+
         bot.sendMessage("Couldn't edit pizza", user.getChatId());
     }
 }
