@@ -67,8 +67,28 @@ Etsi botti Telegramista ja lähetä sille viesti.
 
  - `help`: Antaa ohjeita
 
- - `add pizza name, restaurant name, date eaten(dd.mm.yyyy)`: Lisää pizzan
+ - `add pizza name, restaurant name, date eaten(dd.mm.yyyy)`
 
- - `add margarita, barbarossa`: Lisää pizzan nykyisellä päivämäärällä
+   * `add kinkku ananas kebab pizza, pizza rax, 12.4.2019`: Lisää pizzan
+
+   * `add margarita, barbarossa`: Lisää pizzan nykyisellä päivämäärällä
 
  - `list`: Listaa lisäämäsi pizzat
+
+   * `list year`: Listaa tänä vuonna syömäsi pizzat
+
+   * `list year last`: Listaa viime vuonna syömäsi pizzat
+
+ - `edit`
+
+   * `edit id field newvalue`: 
+
+      * `id` = muokattavan pizzan id (näkee listasta) 
+
+      * `field` = muokattava kenttä (`name`, `restaurant` tai `date`)
+
+      * `newvalue` = uusi arvo kentälle (esim. `kinkku pizza`)
+
+ - `delete id`: Poistaa pizzan, jos se on käyttäjän lisäämä
+
+ - `me`: Kertoo käyttäjän nimen, chatId:n ja Id:n

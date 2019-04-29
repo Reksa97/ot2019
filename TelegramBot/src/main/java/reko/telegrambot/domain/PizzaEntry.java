@@ -92,7 +92,7 @@ public class PizzaEntry {
     @Override
     public String toString() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        return "\nid: " + this.id + "\nname: " + this.pizzaName + "\nrestaurant: " + this.restaurantName + "\neaten on: " + dateFormat.format(this.dateEaten);
+        return "\nname: " + this.pizzaName + "\nrestaurant: " + this.restaurantName + "\neaten on: " + dateFormat.format(this.dateEaten) + "\nid: " + this.id ;
     }
 
 }
