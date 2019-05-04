@@ -11,7 +11,7 @@ import reko.telegrambot.dao.PizzaEntryDao;
 
 public class InputHandler {
 
-    private PizzaEntryDao pizzaEntryDao;
+    private final PizzaEntryDao pizzaEntryDao;
 
     public InputHandler(PizzaEntryDao p) {
         this.pizzaEntryDao = p;
@@ -51,6 +51,9 @@ public class InputHandler {
                 break;
             case "me":
                 bot.sendMessage("Your chat id: " + user.getChatId() + "\nYour id: " + user.getId() + "\nYour name: " + user.getFirstName(), user.getChatId());
+                break;
+            case "/start":
+                bot.sendMessage("Welcome to pizza counter bot!\n" + this.help(), user.getChatId());
                 break;
             default:
                 bot.sendMessage("Command not recognized, type 'help' for help", user.getChatId());
@@ -202,6 +205,7 @@ public class InputHandler {
 
         } catch (Exception e) {
         }
+        
         bot.sendMessage("Couldn't delete pizza. You can only delete pizzas added by you", user.getChatId());
         System.out.println("Couldn't delete pizza " + id + " for user " + user.toString());
 

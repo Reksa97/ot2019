@@ -35,6 +35,7 @@ Yhteensä 12.5h.
 
 ## Viikko 7
 
-29.4.2019, 4h, Editing, tests for editing, listing
+29.4.2019, 5h, Editing, tests for editing, listing, testing document
+4.5.2019, 2h, Finishing program
 
-Koko projektiin käytetty 41h.
+Koko projektiin käytetty 44h.

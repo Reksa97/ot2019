@@ -41,7 +41,7 @@
 
  - Luo oma botti Telegramin [BotFatherilla](https://telegram.me/BotFather)
 
- - Lataa [jar-tiedosto](https://github.com/Reksa97/ot2019/releases/tag/v2)
+ - Lataa [jar-tiedosto](https://github.com/Reksa97/ot2019/releases/tag/v3)
 
  - Lisää kansioon tiedosto `config.properties`
 

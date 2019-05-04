@@ -12,6 +12,18 @@ UserDaolle ja User -luokalle on tehty yksikkötestejä testauskattavuuden nostam
 
 #### Testauskattavuus
 
-Rivikattavuus on 95% ja haaraumakattavuus 95%. Kattavuusraportti ei koske `telegrambot.bot` -pakkausta.
+Rivikattavuus on 93% ja haaraumakattavuus 93%. Kattavuusraportti ei koske `telegrambot.bot` -pakkausta.
 
 Testaamatta jäi tapauksia joissa tietokannasta lukeminen ei onnistu jostain syystä.
+
+### Järjestelmätestaus
+
+Sovelluksen järjestelmätestaus on suoritettu manuaalisesti.
+
+#### Asennus ja konfigurointi
+
+Sovellus on haettu ja saatu käyttöön käyttöohjeen mukaisesti, määrittelemällä `config.properties` -tiedosto käynnistyshakemistoon. Testausta on tehty sekä paikallisesti SQLite-tietokannalla että ElephantSQL-tietokannalla.
+
+#### Koodin laatu
+
+Sovellusta tehtäessä on käytetty checkstyletyylisääntöjä, joita on noudatettu koodissa mahdollisimman tarkasti.
